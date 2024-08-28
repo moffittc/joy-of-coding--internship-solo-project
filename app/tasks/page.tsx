@@ -2,14 +2,14 @@ import React from "react";
 import { Button } from "@radix-ui/themes";
 import Link from "next/link";
 
-const IssuesPage = () => {
+const TasksPage = () => {
   return (
     <div>
       <Button>
-        <Link href="/issues/new">New Issue</Link>
+        <Link href="/tasks/new">+</Link>
       </Button>
     </div>
   );
 };
 
-export default IssuesPage;
+export default TasksPage;
