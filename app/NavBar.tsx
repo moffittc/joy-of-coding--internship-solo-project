@@ -3,23 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-import { AiFillBug } from "react-icons/ai";
+import { FaRegCheckCircle } from "react-icons/fa";
 import classnames from "classnames";
 
 const NavBar = () => {
   const currentPath = usePathname();
 
   const links = [
-    { label: "Dashboard", href: "/" },
-    { label: "Issues", href: "/issues" },
+    // For now: Tasks, logged in: tasks, logged out: home
+    { label: "Task Manager", href: "/tasks" },
+    { label: "Log In", href: "/" },
   ];
 
   return (
     <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center">
+      {/* For now: home, logged in: tasks, logged out: home */}
       <Link href="/">
-        <AiFillBug />
+        <FaRegCheckCircle />
       </Link>
-      <ul className="flex space-x-6">
+      <ul className="flex size-full justify-between items-center">
         {links.map((link) => (
           <Link
             key={link.href}
