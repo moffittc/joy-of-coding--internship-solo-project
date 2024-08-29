@@ -14,6 +14,7 @@ import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 
+// Instead of creating an interface, this gets the obj from validationSchemas
 type TaskForm = z.infer<typeof createTaskSchema>;
 
 const NewTaskPage = () => {
