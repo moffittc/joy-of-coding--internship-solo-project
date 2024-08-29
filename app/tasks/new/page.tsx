@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import { Button, Callout, Heading, TextField } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import * as Label from "@radix-ui/react-label";
 import { useForm, Controller } from "react-hook-form";
@@ -43,6 +43,7 @@ const NewTaskPage = () => {
 
   return (
     <div className="max-w-xl">
+      <Heading>Create Task</Heading>
       {error && (
         <Callout.Root color="red" className="mb-5">
           <Callout.Text>{error}</Callout.Text>
