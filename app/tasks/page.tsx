@@ -28,16 +28,30 @@ const TasksPage = async () => {
       <Button>
         <Link href="/tasks/new">+</Link>
       </Button>
-      {allTasks.map((task) => (
-        <p key={task.id}>
-          <DoneCheckbox checked={task.completed} />
-          {task.title +
-            " | " +
-            task.description +
-            " | " +
-            task.dueDate.toDateString()}
-        </p>
-      ))}
+      <Table.Root variant="surface">
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeaderCell />
+            <Table.ColumnHeaderCell>Task Name</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Due</Table.ColumnHeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+          {allTasks.map((task) => (
+            <Table.Row key={task.id}>
+              <Table.RowHeaderCell>
+                <DoneCheckbox checked={task.completed} />
+              </Table.RowHeaderCell>
+
+              <Table.Cell>{task.title}</Table.Cell>
+              <Table.Cell>{task.description}</Table.Cell>
+              <Table.Cell>{task.dueDate.toDateString()}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
     </div>
   );
 };
