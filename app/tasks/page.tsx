@@ -30,7 +30,7 @@ const TasksPage = async () => {
       </Button>
       {allTasks.map((task) => (
         <p key={task.id}>
-          <DoneCheckbox />
+          <DoneCheckbox checked={task.completed} />
           {task.title +
             " | " +
             task.description +
