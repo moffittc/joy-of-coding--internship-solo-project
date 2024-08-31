@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Table } from "@radix-ui/themes";
+import { TbPencil } from "react-icons/tb";
 import DoneCheckbox from "@/app/components/DoneCheckbox";
 import Link from "next/link";
 import prisma from "@/prisma/client";
@@ -35,6 +36,7 @@ const TasksPage = async () => {
             <Table.ColumnHeaderCell>Task Name</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Due</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell />
           </Table.Row>
         </Table.Header>
 
@@ -48,6 +50,11 @@ const TasksPage = async () => {
               <Table.Cell>{task.title}</Table.Cell>
               <Table.Cell>{task.description}</Table.Cell>
               <Table.Cell>{task.dueDate.toDateString()}</Table.Cell>
+              <Table.Cell>
+                <Link href="/">
+                  <TbPencil />
+                </Link>
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
