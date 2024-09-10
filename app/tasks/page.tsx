@@ -20,14 +20,11 @@ const TasksPage = async () => {
       dueDate: true,
     },
   });
-  // Executed when page is refreshed:
-  console.log("allTasks: ", allTasks[0].completed);
-  // How to display them in a table?
 
   return (
     <div>
       <Button>
-        <Link href="/tasks/new">+</Link>
+        <Link href={{ pathname: "/tasks/new", query: {} }}>+</Link>
       </Button>
       <Table.Root variant="surface">
         <Table.Header>
@@ -51,8 +48,22 @@ const TasksPage = async () => {
               <Table.Cell>{task.description}</Table.Cell>
               <Table.Cell>{task.dueDate.toDateString()}</Table.Cell>
               <Table.Cell>
-                <Link href="/">
+                <Link
+                  href={`/tasks/new?id=${task.id}&title=${
+                    task.title
+                  }&description=${
+                    task.description
+                  }&ddYear=${task.dueDate.toLocaleDateString("en-US", {
+                    year: "numeric",
+                  })}&ddMonth=${task.dueDate.toLocaleDateString("en-US", {
+                    month: "2-digit",
+                  })}&ddDay=${task.dueDate.toLocaleDateString("en-US", {
+                    day: "2-digit",
+                  })}
+                  `}
+                >
                   <TbPencil />
+                  {task.id}
                 </Link>
               </Table.Cell>
             </Table.Row>
@@ -64,3 +75,10 @@ const TasksPage = async () => {
 };
 
 export default TasksPage;
+
+// task: {
+//   id: task.id,
+//   title: task.title,
+//   description: task.description,
+//   dueDate: task.dueDate,
+// }
