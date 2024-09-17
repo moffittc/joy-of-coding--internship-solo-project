@@ -16,6 +16,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema } from "@/app/validationSchemas";
 import { number, z } from "zod";
+import Link from "next/link";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 
@@ -120,6 +121,11 @@ const NewTaskPage = () => {
           {isSubmitting && <Spinner />}
         </Button>
       </form>
+
+      <Button>
+        <Link href="/tasks">Cancel</Link>
+      </Button>
+      {taskID && <Button>Delete</Button>}
     </div>
   );
 };

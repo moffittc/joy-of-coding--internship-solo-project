@@ -24,7 +24,7 @@ const TasksPage = async () => {
   return (
     <div>
       <Button>
-        <Link href={{ pathname: "/tasks/new", query: {} }}>+</Link>
+        <Link href="/tasks/new">+</Link>
       </Button>
       <Table.Root variant="surface">
         <Table.Header>
