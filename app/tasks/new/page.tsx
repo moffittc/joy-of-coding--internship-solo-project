@@ -7,21 +7,20 @@ import {
   TextArea,
   TextField,
 } from "@radix-ui/themes";
-import SimpleMDE from "react-simplemde-editor";
 import * as Label from "@radix-ui/react-label";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createTaskSchema } from "@/app/validationSchemas";
+import { formSchema } from "@/app/validationSchemas";
 import { number, z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 
 // Instead of creating an interface, this gets the obj from validationSchemas
-type TaskForm = z.infer<typeof createTaskSchema>;
+type TaskForm = z.infer<typeof formSchema>;
 
 const NewTaskPage = () => {
   const router = useRouter();
@@ -35,19 +34,24 @@ const NewTaskPage = () => {
 
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm<TaskForm>({
-    resolver: zodResolver(createTaskSchema),
+    resolver: zodResolver(formSchema),
   });
+
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      await axios.post("/api/tasks", data);
+      // Sends data to api:
+      if (data.type === "post") {
+        await axios.post("/api/tasks", data.data);
+      } else if (data.type === "patch") {
+        await axios.patch("/api/tasks", data.data);
+      }
       router.push("/tasks");
     } catch (error) {
       setSubmitting(false);
@@ -65,28 +69,33 @@ const NewTaskPage = () => {
         </Callout.Root>
       )}
       <form className="space-y-3" onSubmit={onSubmit}>
+        {/* Determines whether to use the post or patch schema */}
+        <input
+          type="hidden"
+          value={taskID ? "patch" : "post"}
+          {...register("type")}
+        />
+
+        {/* ID Field - for editing a task */}
+        {taskID && (
+          <input type="hidden" value={taskID} {...register("data.id")} />
+        )}
+
         {/* Title Field*/}
         <TextField.Root
           placeholder="Title"
           defaultValue={taskTitle ? taskTitle : undefined}
-          {...register("title")}
+          {...register("data.title")}
         />
-        <ErrorMessage>{errors.title?.message}</ErrorMessage>
+        <ErrorMessage>{errors.data?.title?.message}</ErrorMessage>
 
         {/* Description Field */}
         <TextArea
           placeholder="Description"
           defaultValue={taskDesc ? taskDesc : undefined}
-          {...register("description")}
+          {...register("data.description")}
         />
-        {/* <Controller
-          name="description"
-          control={control}
-          render={({ field }) => (
-            <SimpleMDE placeholder="Description" {...field} />
-          )}
-        /> */}
-        <ErrorMessage>{errors.description?.message}</ErrorMessage>
+        <ErrorMessage>{errors.data?.description?.message}</ErrorMessage>
 
         {/* Due Date Field - returns a string */}
         <Label.Root
@@ -101,13 +110,14 @@ const NewTaskPage = () => {
           defaultValue={
             taskDay ? taskYear + "-" + taskMonth + "-" + taskDay : undefined
           }
-          {...register("dueDate")}
+          {...register("data.dueDate")}
         />
-        <ErrorMessage>{errors.dueDate?.message}</ErrorMessage>
+        <ErrorMessage>{errors.data?.dueDate?.message}</ErrorMessage>
 
         {/*Submit Button*/}
         <Button disabled={isSubmitting}>
-          Create{isSubmitting && <Spinner />}
+          {taskID ? "Update" : "Create"}
+          {isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>

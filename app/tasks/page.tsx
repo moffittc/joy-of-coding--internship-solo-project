@@ -63,7 +63,6 @@ const TasksPage = async () => {
                   `}
                 >
                   <TbPencil />
-                  {task.id}
                 </Link>
               </Table.Cell>
             </Table.Row>
