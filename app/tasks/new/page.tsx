@@ -15,7 +15,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema } from "@/app/validationSchemas";
-import { number, z } from "zod";
+import { z } from "zod";
 import Link from "next/link";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";

@@ -27,7 +27,7 @@ export async function PATCH(request: NextRequest) {
           id: body.id
         },
         data: {
-            title: body.title, description: body.description, dueDate: body.dueDate 
+            completed: body.completed, title: body.title, description: body.description, dueDate: body.dueDate 
         }
       });
 

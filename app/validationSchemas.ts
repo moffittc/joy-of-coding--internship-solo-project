@@ -11,6 +11,7 @@ export const updateTaskSchema = z.object({
     id: z.coerce.number(),
     title: z.string().min(1, 'Title is required.').max(255).optional(),
     description: z.string().min(1, 'Description is required.').optional(),
+    completed: z.coerce.boolean().optional(),
     dueDate: z.coerce.date().optional()
 });
 

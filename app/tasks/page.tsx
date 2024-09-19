@@ -41,7 +41,7 @@ const TasksPage = async () => {
           {allTasks.map((task) => (
             <Table.Row key={task.id}>
               <Table.RowHeaderCell>
-                <DoneCheckbox checked={task.completed} />
+                <DoneCheckbox id={task.id} isChecked={task.completed} />
               </Table.RowHeaderCell>
 
               <Table.Cell>{task.title}</Table.Cell>
