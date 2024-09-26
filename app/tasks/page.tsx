@@ -74,10 +74,3 @@ const TasksPage = async () => {
 };
 
 export default TasksPage;
-
-// task: {
-//   id: task.id,
-//   title: task.title,
-//   description: task.description,
-//   dueDate: task.dueDate,
-// }

@@ -19,6 +19,7 @@ import { z } from "zod";
 import Link from "next/link";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
+import DeleteButton from "@/app/components/DeleteButton";
 
 // Instead of creating an interface, this gets the obj from validationSchemas
 type TaskForm = z.infer<typeof formSchema>;
@@ -125,7 +126,9 @@ const NewTaskPage = () => {
       <Button>
         <Link href="/tasks">Cancel</Link>
       </Button>
-      {taskID && <Button>Delete</Button>}
+
+      {/*Delete Button*/}
+      {taskID && <DeleteButton id={Number(taskID)} href="/tasks" />}
     </div>
   );
 };

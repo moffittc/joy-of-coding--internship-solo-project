@@ -15,6 +15,10 @@ export const updateTaskSchema = z.object({
     dueDate: z.coerce.date().optional()
 });
 
+export const deleteTaskSchema = z.object({
+    id: z.coerce.number()
+})
+
 export const formSchema = z.union([
     z.object({
         type: z.literal('post'), // Used to determine which schema to use

@@ -21,6 +21,14 @@ const DoneCheckbox = ({ id, isChecked }: Props) => {
   });
   const [error, setError] = useState("");
 
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      await axios.patch("/api/tasks", data);
+    } catch (error) {
+      setError("An unexpected error occurred.");
+    }
+  });
+
   return (
     <div>
       {error && (
@@ -28,15 +36,7 @@ const DoneCheckbox = ({ id, isChecked }: Props) => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            await axios.patch("/api/tasks", data);
-          } catch (error) {
-            setError("An unexpected error occurred.");
-          }
-        })}
-      >
+      <form onSubmit={onSubmit}>
         <input type="hidden" value={id} {...register("id")} />
 
         <Checkbox
