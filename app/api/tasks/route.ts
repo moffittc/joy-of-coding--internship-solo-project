@@ -10,7 +10,12 @@ export async function POST(request: NextRequest) {
 
     // Insert new task in database
     const newTask = await prisma.task.create({
-        data: { title: body.title, description: body.description, dueDate: body.dueDate }
+        data: { 
+            title: body.title, 
+            description: body.description, 
+            dueDate: body.dueDate, 
+            category: body.category,
+        },
     });
 
     return NextResponse.json(newTask, { status: 201 });
@@ -27,7 +32,11 @@ export async function PATCH(request: NextRequest) {
           id: body.id
         },
         data: {
-            completed: body.completed, title: body.title, description: body.description, dueDate: body.dueDate 
+            completed: body.completed, 
+            title: body.title, 
+            description: body.description, 
+            dueDate: body.dueDate, 
+            category: body.category, 
         }
       });
 

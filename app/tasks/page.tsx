@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Table } from "@radix-ui/themes";
+import { Badge, Button, Table } from "@radix-ui/themes";
 import { TbPencil } from "react-icons/tb";
 import DoneCheckbox from "@/app/components/DoneCheckbox";
 import Link from "next/link";
@@ -69,6 +69,34 @@ const TasksPage = async () => {
           ))}
         </Table.Body>
       </Table.Root>
+      <div>
+        <Badge color="gray">Gray</Badge>
+        <Badge color="gold">Gold</Badge>
+        <Badge color="bronze">Bronze</Badge>
+        <Badge color="brown">brown</Badge>
+        <Badge color="yellow">yellow</Badge>
+        <Badge color="amber">amber</Badge>
+        <Badge color="orange">orange</Badge>
+        <Badge color="tomato">tomato</Badge>
+        <Badge color="red">red</Badge>
+        <Badge color="ruby">ruby</Badge>
+        <Badge color="crimson">crimson</Badge>
+        <Badge color="pink">pink</Badge>
+        <Badge color="plum">plum</Badge>
+        <Badge color="purple">purple</Badge>
+        <Badge color="violet">violet</Badge>
+        <Badge color="iris">iris</Badge>
+        <Badge color="indigo">indigo</Badge>
+        <Badge color="blue">blue</Badge>
+        <Badge color="cyan">cyan</Badge>
+        <Badge color="teal">teal</Badge>
+        <Badge color="jade">jade</Badge>
+        <Badge color="green">green</Badge>
+        <Badge color="grass">grass</Badge>
+        <Badge color="lime">lime</Badge>
+        <Badge color="mint">mint</Badge>
+        <Badge color="sky">sky</Badge>
+      </div>
     </div>
   );
 };

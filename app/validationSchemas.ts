@@ -1,10 +1,13 @@
 import { z } from "zod"
 /* All validation schemas */
 
+export const Category = z.enum(['High', 'Medium', 'Low']);
+
 export const createTaskSchema = z.object({
     title: z.string().min(1, 'Title is required.').max(255),
     description: z.string().min(1, 'Description is required.'),
-    dueDate: z.coerce.date() // Converts input string into date type
+    dueDate: z.coerce.date(), // Converts input string into date type
+    category: Category.optional(),
 });
 
 export const updateTaskSchema = z.object({
@@ -12,12 +15,9 @@ export const updateTaskSchema = z.object({
     title: z.string().min(1, 'Title is required.').max(255).optional(),
     description: z.string().min(1, 'Description is required.').optional(),
     completed: z.coerce.boolean().optional(),
-    dueDate: z.coerce.date().optional()
+    dueDate: z.coerce.date().optional(),
+    category: Category.optional(),
 });
-
-export const deleteTaskSchema = z.object({
-    id: z.coerce.number()
-})
 
 export const formSchema = z.union([
     z.object({
