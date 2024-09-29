@@ -23,6 +23,7 @@ const DoneCheckbox = ({ id, isChecked }: Props) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      console.log(data.completed);
       await axios.patch("/api/tasks", data);
     } catch (error) {
       setError("An unexpected error occurred.");

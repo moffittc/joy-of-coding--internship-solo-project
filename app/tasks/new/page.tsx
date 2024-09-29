@@ -4,6 +4,7 @@ import {
   Button,
   Callout,
   Heading,
+  Select,
   TextArea,
   TextField,
 } from "@radix-ui/themes";
@@ -30,6 +31,7 @@ const NewTaskPage = () => {
   const taskID = searchParams.get("id");
   const taskTitle = searchParams.get("title");
   const taskDesc = searchParams.get("description");
+  //const taskCategory = searchParams.get("category");
   const taskYear = searchParams.get("ddYear");
   const taskMonth = searchParams.get("ddMonth");
   const taskDay = searchParams.get("ddDay");
@@ -98,6 +100,17 @@ const NewTaskPage = () => {
           {...register("data.description")}
         />
         <ErrorMessage>{errors.data?.description?.message}</ErrorMessage>
+
+        {/* Category Field
+        <Select.Root defaultValue="None">
+          <Select.Trigger />
+          <Select.Content>
+            <Select.Item value="None">None</Select.Item>
+            <Select.Item value="High">High</Select.Item>
+            <Select.Item value="Medium">Medium</Select.Item>
+            <Select.Item value="Low">Low</Select.Item>
+          </Select.Content>
+        </Select.Root> */}
 
         {/* Due Date Field - returns a string */}
         <Label.Root

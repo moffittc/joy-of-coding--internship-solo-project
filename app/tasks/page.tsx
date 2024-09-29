@@ -18,6 +18,7 @@ const TasksPage = async () => {
       title: true,
       description: true,
       dueDate: true,
+      //category: true,
     },
   });
 
@@ -33,6 +34,7 @@ const TasksPage = async () => {
             <Table.ColumnHeaderCell>Task Name</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Due</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Priority</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell />
           </Table.Row>
         </Table.Header>
@@ -47,6 +49,13 @@ const TasksPage = async () => {
               <Table.Cell>{task.title}</Table.Cell>
               <Table.Cell>{task.description}</Table.Cell>
               <Table.Cell>{task.dueDate.toDateString()}</Table.Cell>
+              {/* <Table.Cell>
+                {task.category && (
+                  <Badge color={task.category === "High" ? "pink" : {task.category === "Medium" ? "orange" : "amber"}}>
+                    {task.category}
+                  </Badge>
+                )}
+              </Table.Cell> */}
               <Table.Cell>
                 <Link
                   href={`/tasks/new?id=${task.id}&title=${
