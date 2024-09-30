@@ -101,23 +101,29 @@ const NewTaskPage = () => {
         />
         <ErrorMessage>{errors.data?.description?.message}</ErrorMessage>
 
-        {/* Category Field
+        {/* Category Field */}
+        <Label.Root
+          className="text-[15px] font-medium leading-[35px]"
+          htmlFor="category"
+        >
+          Priority:
+        </Label.Root>
         <Select.Root defaultValue="None">
           <Select.Trigger />
-          <Select.Content>
+          <Select.Content id="category">
             <Select.Item value="None">None</Select.Item>
             <Select.Item value="High">High</Select.Item>
             <Select.Item value="Medium">Medium</Select.Item>
             <Select.Item value="Low">Low</Select.Item>
           </Select.Content>
-        </Select.Root> */}
+        </Select.Root>
 
         {/* Due Date Field - returns a string */}
         <Label.Root
           className="text-[15px] font-medium leading-[35px]"
           htmlFor="dueDate"
         >
-          Due Date
+          Due Date:
         </Label.Root>
         <input
           type="date"
@@ -136,6 +142,7 @@ const NewTaskPage = () => {
         </Button>
       </form>
 
+      {/*Cancel Button*/}
       <Button>
         <Link href="/tasks">Cancel</Link>
       </Button>
