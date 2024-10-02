@@ -11,17 +11,18 @@ datasource db {
 }
 
 model Task {
-  id          Int       @id @default(autoincrement())
-  title       String    @db.VarChar(255)
-  description String    @db.Text
-  completed   Boolean   @default(false)
-  dueDate     DateTime  @db.Date
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  category    Category?
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String   @db.Text
+  completed   Boolean  @default(false)
+  dueDate     DateTime @db.Date
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category
 }
 
 enum Category {
+  None
   High // "pink"
   Medium // "orange"
   Low // "yellow or amber"

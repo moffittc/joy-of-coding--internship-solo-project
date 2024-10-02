@@ -15,7 +15,7 @@ import "easymde/dist/easymde.min.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formSchema } from "@/app/validationSchemas";
+import { formSchema, Category } from "@/app/validationSchemas";
 import { z } from "zod";
 import Link from "next/link";
 import ErrorMessage from "@/app/components/ErrorMessage";
@@ -39,6 +39,7 @@ const NewTaskPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<TaskForm>({
     resolver: zodResolver(formSchema),
@@ -101,39 +102,51 @@ const NewTaskPage = () => {
         />
         <ErrorMessage>{errors.data?.description?.message}</ErrorMessage>
 
-        {/* Category Field */}
-        <Label.Root
-          className="text-[15px] font-medium leading-[35px]"
-          htmlFor="category"
-        >
-          Priority:
-        </Label.Root>
-        <Select.Root defaultValue="None">
-          <Select.Trigger />
-          <Select.Content id="category">
-            <Select.Item value="None">None</Select.Item>
-            <Select.Item value="High">High</Select.Item>
-            <Select.Item value="Medium">Medium</Select.Item>
-            <Select.Item value="Low">Low</Select.Item>
-          </Select.Content>
-        </Select.Root>
+        <div className="flex justify-between">
+          {/* Category Field */}
+          <div className="flex flex-col w-1/2 mr-10">
+            <Label.Root
+              className="text-[15px] font-medium leading-[35px]"
+              htmlFor="category"
+            >
+              Priority:
+            </Label.Root>
+            <Select.Root
+              defaultValue={/*taskCategory ? taskCategory : */ Category.None}
+              onValueChange={(value) =>
+                setValue("data.category", value as Category)
+              }
+            >
+              <Select.Trigger />
+              <Select.Content id="category">
+                <Select.Item value={Category.None}>None</Select.Item>
+                <Select.Item value={Category.High}>High</Select.Item>
+                <Select.Item value={Category.Medium}>Medium</Select.Item>
+                <Select.Item value={Category.Low}>Low</Select.Item>
+              </Select.Content>
+            </Select.Root>
+            <ErrorMessage>{errors.data?.category?.message}</ErrorMessage>
+          </div>
 
-        {/* Due Date Field - returns a string */}
-        <Label.Root
-          className="text-[15px] font-medium leading-[35px]"
-          htmlFor="dueDate"
-        >
-          Due Date:
-        </Label.Root>
-        <input
-          type="date"
-          id="dueDate"
-          defaultValue={
-            taskDay ? taskYear + "-" + taskMonth + "-" + taskDay : undefined
-          }
-          {...register("data.dueDate")}
-        />
-        <ErrorMessage>{errors.data?.dueDate?.message}</ErrorMessage>
+          {/* Due Date Field - returns a string */}
+          <div className="flex flex-col w-1/2">
+            <Label.Root
+              className="text-[15px] font-medium leading-[35px]"
+              htmlFor="dueDate"
+            >
+              Due Date:
+            </Label.Root>
+            <input
+              type="date"
+              id="dueDate"
+              defaultValue={
+                taskDay ? taskYear + "-" + taskMonth + "-" + taskDay : undefined
+              }
+              {...register("data.dueDate")}
+            />
+            <ErrorMessage>{errors.data?.dueDate?.message}</ErrorMessage>
+          </div>
+        </div>
 
         {/*Submit Button*/}
         <Button disabled={isSubmitting}>

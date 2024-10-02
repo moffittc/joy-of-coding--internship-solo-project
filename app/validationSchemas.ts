@@ -1,13 +1,18 @@
 import { z } from "zod"
 /* All validation schemas */
 
-export const Category = z.enum(['High', 'Medium', 'Low']);
+export enum Category {
+    None = 'None',
+    High = 'High',
+    Medium = 'Medium',
+    Low = 'Low',
+}
 
 export const createTaskSchema = z.object({
     title: z.string().min(1, 'Title is required.').max(255),
     description: z.string().min(1, 'Description is required.'),
     dueDate: z.coerce.date(), // Converts input string into date type
-    category: Category.optional(),
+    category: z.enum(['None', 'High', 'Medium', 'Low']),
 });
 
 export const updateTaskSchema = z.object({
@@ -16,7 +21,7 @@ export const updateTaskSchema = z.object({
     description: z.string().min(1, 'Description is required.').optional(),
     completed: z.coerce.boolean().optional(),
     dueDate: z.coerce.date().optional(),
-    category: Category.optional(),
+    category: z.enum(['None', 'High', 'Medium', 'Low']).optional(),
 });
 
 export const formSchema = z.union([
