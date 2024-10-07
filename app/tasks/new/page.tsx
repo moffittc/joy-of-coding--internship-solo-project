@@ -31,7 +31,7 @@ const NewTaskPage = () => {
   const taskID = searchParams.get("id");
   const taskTitle = searchParams.get("title");
   const taskDesc = searchParams.get("description");
-  //const taskCategory = searchParams.get("category");
+  const taskCategory = searchParams.get("category");
   const taskYear = searchParams.get("ddYear");
   const taskMonth = searchParams.get("ddMonth");
   const taskDay = searchParams.get("ddDay");
@@ -112,12 +112,12 @@ const NewTaskPage = () => {
               Priority:
             </Label.Root>
             <Select.Root
-              defaultValue={/*taskCategory ? taskCategory : */ Category.None}
+              defaultValue={taskCategory ? taskCategory : undefined}
               onValueChange={(value) =>
                 setValue("data.category", value as Category)
               }
             >
-              <Select.Trigger />
+              <Select.Trigger placeholder="Select a category" />
               <Select.Content id="category">
                 <Select.Item value={Category.None}>None</Select.Item>
                 <Select.Item value={Category.High}>High</Select.Item>

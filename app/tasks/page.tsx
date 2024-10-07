@@ -4,6 +4,7 @@ import { TbPencil } from "react-icons/tb";
 import DoneCheckbox from "@/app/components/DoneCheckbox";
 import Link from "next/link";
 import prisma from "@/prisma/client";
+import { Category } from "@prisma/client";
 
 const TasksPage = async () => {
   // Get all the tasks from the server
@@ -18,9 +19,20 @@ const TasksPage = async () => {
       title: true,
       description: true,
       dueDate: true,
-      //category: true,
+      category: true,
     },
   });
+
+  const handleColor = (priority: Category) => {
+    switch (priority) {
+      case "High":
+        return "pink";
+      case "Medium":
+        return "orange";
+      case "Low":
+        return "amber";
+    }
+  };
 
   return (
     <div>
@@ -49,19 +61,21 @@ const TasksPage = async () => {
               <Table.Cell>{task.title}</Table.Cell>
               <Table.Cell>{task.description}</Table.Cell>
               <Table.Cell>{task.dueDate.toDateString()}</Table.Cell>
-              {/* <Table.Cell>
-                {task.category && (
-                  <Badge color={task.category === "High" ? "pink" : {task.category === "Medium" ? "orange" : "amber"}}>
+
+              <Table.Cell>
+                {task.category !== "None" && (
+                  <Badge color={handleColor(task.category)}>
                     {task.category}
                   </Badge>
                 )}
-              </Table.Cell> */}
+              </Table.Cell>
+
               <Table.Cell>
                 <Link
                   href={`/tasks/new?id=${task.id}&title=${
                     task.title
-                  }&description=${
-                    task.description
+                  }&description=${task.description}&category=${
+                    task.category
                   }&ddYear=${task.dueDate.toLocaleDateString("en-US", {
                     year: "numeric",
                   })}&ddMonth=${task.dueDate.toLocaleDateString("en-US", {
@@ -78,34 +92,6 @@ const TasksPage = async () => {
           ))}
         </Table.Body>
       </Table.Root>
-      <div>
-        <Badge color="gray">Gray</Badge>
-        <Badge color="gold">Gold</Badge>
-        <Badge color="bronze">Bronze</Badge>
-        <Badge color="brown">brown</Badge>
-        <Badge color="yellow">yellow</Badge>
-        <Badge color="amber">amber</Badge>
-        <Badge color="orange">orange</Badge>
-        <Badge color="tomato">tomato</Badge>
-        <Badge color="red">red</Badge>
-        <Badge color="ruby">ruby</Badge>
-        <Badge color="crimson">crimson</Badge>
-        <Badge color="pink">pink</Badge>
-        <Badge color="plum">plum</Badge>
-        <Badge color="purple">purple</Badge>
-        <Badge color="violet">violet</Badge>
-        <Badge color="iris">iris</Badge>
-        <Badge color="indigo">indigo</Badge>
-        <Badge color="blue">blue</Badge>
-        <Badge color="cyan">cyan</Badge>
-        <Badge color="teal">teal</Badge>
-        <Badge color="jade">jade</Badge>
-        <Badge color="green">green</Badge>
-        <Badge color="grass">grass</Badge>
-        <Badge color="lime">lime</Badge>
-        <Badge color="mint">mint</Badge>
-        <Badge color="sky">sky</Badge>
-      </div>
     </div>
   );
 };
