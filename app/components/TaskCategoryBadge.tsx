@@ -4,11 +4,11 @@ import React from "react";
 
 const categoryMap: Record<
   Category,
-  { label: string; color: "pink" | "orange" | "amber" | "gray" }
+  { label: string; color: "pink" | "orange" | "yellow" | "gray" }
 > = {
   High: { label: "High", color: "pink" },
   Medium: { label: "Medium", color: "orange" },
-  Low: { label: "Low", color: "amber" },
+  Low: { label: "Low", color: "yellow" },
   None: { label: "None", color: "gray" },
 };
 
