@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Button, Table } from "@radix-ui/themes";
+import { Button, Table } from "@radix-ui/themes";
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
 import { IoChevronUp } from "react-icons/io5";
 import { TbPencil } from "react-icons/tb";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import prisma from "@/prisma/client";
 import axios from "axios";
 import { Category } from "@prisma/client";
+import TaskCategoryBadge from "../components/taskCategoryBadge";
 
 // type Task = {
 //   dueDate: Date;
@@ -35,17 +36,6 @@ const TasksPage = async () => {
     },
   });
 
-  // For category badges
-  const handleColor = (priority: Category) => {
-    switch (priority) {
-      case "High":
-        return "pink";
-      case "Medium":
-        return "orange";
-      case "Low":
-        return "amber";
-    }
-  };
   return (
     <div>
       <div className="mb-5">
@@ -78,7 +68,7 @@ const TasksPage = async () => {
 
               <Table.Cell>
                 {task.title}
-                <div className="block md:hidden">
+                <div className="block md:hidden text-xs text-gray-500">
                   {task.dueDate.toDateString()}
                 </div>
               </Table.Cell>
@@ -90,11 +80,7 @@ const TasksPage = async () => {
               </Table.Cell>
 
               <Table.Cell>
-                {task.category !== "None" && (
-                  <Badge color={handleColor(task.category)}>
-                    {task.category}
-                  </Badge>
-                )}
+                <TaskCategoryBadge category={task.category}></TaskCategoryBadge>
               </Table.Cell>
 
               <Table.Cell>
