@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button, Table } from "@radix-ui/themes";
-import * as ToggleGroup from "@radix-ui/react-toggle-group";
-import { IoChevronUp } from "react-icons/io5";
-import { TbPencil } from "react-icons/tb";
-import DoneCheckbox from "@/app/components/DoneCheckbox";
-import Link from "next/link";
 import prisma from "@/prisma/client";
-import axios from "axios";
-import { Category } from "@prisma/client";
-import TaskCategoryBadge from "../components/taskCategoryBadge";
+import { Button, Table } from "@radix-ui/themes";
+import Link from "next/link";
+import { TbPencil } from "react-icons/tb";
+import { DoneCheckbox, TaskCategoryBadge } from "@/app/components";
 
 // type Task = {
 //   dueDate: Date;

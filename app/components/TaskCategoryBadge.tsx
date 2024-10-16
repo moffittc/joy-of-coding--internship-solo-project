@@ -1,6 +1,5 @@
 import { Category } from "@prisma/client";
 import { Badge } from "@radix-ui/themes";
-import React from "react";
 
 const categoryMap: Record<
   Category,

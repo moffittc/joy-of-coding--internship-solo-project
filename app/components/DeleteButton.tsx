@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
-import { Callout } from "@radix-ui/themes";
+import { Spinner } from "@/app/components";
+import { Button, Callout } from "@radix-ui/themes";
 import axios from "axios";
-import Spinner from "@/app/components/Spinner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface Props {
   id: number;
@@ -20,7 +19,6 @@ const DeleteButton = ({ id, href }: Props) => {
   const handleDelete = async () => {
     try {
       setDeleting(true);
-      console.log(`/api/tasks/${id}`);
       await axios.delete(`/api/tasks/${id}`);
       router.push(`${href}`);
     } catch (error) {

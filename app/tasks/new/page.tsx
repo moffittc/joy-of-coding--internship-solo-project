@@ -1,5 +1,9 @@
 "use client";
 
+import { DeleteButton, ErrorMessage, Spinner } from "@/app/components";
+import { Category, formSchema } from "@/app/validationSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as Label from "@radix-ui/react-label";
 import {
   Button,
   Callout,
@@ -8,19 +12,12 @@ import {
   TextArea,
   TextField,
 } from "@radix-ui/themes";
-import * as Label from "@radix-ui/react-label";
-import { useForm } from "react-hook-form";
 import axios from "axios";
-import "easymde/dist/easymde.min.css";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { formSchema, Category } from "@/app/validationSchemas";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
-import Link from "next/link";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import Spinner from "@/app/components/Spinner";
-import DeleteButton from "@/app/components/DeleteButton";
 
 // Instead of creating an interface, this gets the obj from validationSchemas
 type TaskForm = z.infer<typeof formSchema>;
