@@ -1,8 +1,8 @@
+import { DoneCheckbox, TaskCategoryBadge } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Button, Table } from "@radix-ui/themes";
 import Link from "next/link";
-import { TbPencil } from "react-icons/tb";
-import { DoneCheckbox, TaskCategoryBadge } from "@/app/components";
+import EditButton from "./EditButton";
 
 // type Task = {
 //   dueDate: Date;
@@ -27,6 +27,8 @@ const TasksPage = async () => {
       description: true,
       dueDate: true,
       category: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 
@@ -72,28 +74,11 @@ const TasksPage = async () => {
               <Table.Cell className="hidden md:table-cell">
                 {task.dueDate.toDateString()}
               </Table.Cell>
-
               <Table.Cell>
                 <TaskCategoryBadge category={task.category}></TaskCategoryBadge>
               </Table.Cell>
-
               <Table.Cell>
-                <Link
-                  href={`/tasks/new?id=${task.id}&title=${
-                    task.title
-                  }&description=${task.description}&category=${
-                    task.category
-                  }&ddYear=${task.dueDate.toLocaleDateString("en-US", {
-                    year: "numeric",
-                  })}&ddMonth=${task.dueDate.toLocaleDateString("en-US", {
-                    month: "2-digit",
-                  })}&ddDay=${task.dueDate.toLocaleDateString("en-US", {
-                    day: "2-digit",
-                  })}
-                  `}
-                >
-                  <TbPencil />
-                </Link>
+                <EditButton task={task} />
               </Table.Cell>
             </Table.Row>
           ))}
