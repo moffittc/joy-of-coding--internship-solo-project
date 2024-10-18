@@ -78,7 +78,7 @@ const TasksPage = async () => {
                 <TaskCategoryBadge category={task.category}></TaskCategoryBadge>
               </Table.Cell>
               <Table.Cell>
-                <EditButton task={task} />
+                <EditButton taskID={task.id} />
               </Table.Cell>
             </Table.Row>
           ))}
