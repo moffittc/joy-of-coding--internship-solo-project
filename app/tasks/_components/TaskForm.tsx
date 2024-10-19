@@ -24,14 +24,6 @@ type TaskFormData = z.infer<typeof formSchema>;
 
 const TaskForm = ({ task }: { task?: Task }) => {
   const router = useRouter();
-  // const searchParams = useSearchParams(); // For retrieving task data
-  // const taskID = searchParams.get("id");
-  // const taskTitle = searchParams.get("title");
-  // const taskDesc = searchParams.get("description");
-  // const taskCategory = searchParams.get("category");
-  // const taskYear = searchParams.get("ddYear");
-  // const taskMonth = searchParams.get("ddMonth");
-  // const taskDay = searchParams.get("ddDay");
 
   const {
     register,
@@ -49,11 +41,8 @@ const TaskForm = ({ task }: { task?: Task }) => {
     try {
       setSubmitting(true);
       // Sends data to api:
-      if (data.type === "post") {
-        await axios.post("/api/tasks", data.data);
-      } else if (data.type === "patch") {
-        await axios.patch("/api/tasks", data.data);
-      }
+      if (data.type === "patch") await axios.patch("/api/tasks", data.data);
+      else await axios.post("/api/tasks", data.data);
       router.push("/tasks");
     } catch (error) {
       setSubmitting(false);
@@ -137,8 +126,8 @@ const TaskForm = ({ task }: { task?: Task }) => {
               type="date"
               id="dueDate"
               defaultValue={
-                task?.dueDate.toDateString()
-                // taskDay ? taskYear + "-" + taskMonth + "-" + taskDay : undefined
+                task?.dueDate.toISOString().slice(0, 10)
+                // yyyy-mm-dd
               }
               {...register("data.dueDate")}
             />

@@ -8,20 +8,20 @@ export enum Category {
     Low = 'Low',
 }
 
-export const createTaskSchema = z.object({
+const baseSchema = z.object({
     title: z.string().min(1, 'Title is required.').max(255),
     description: z.string().min(1, 'Description is required.'),
     dueDate: z.coerce.date(), // Converts input string into date type
     category: z.enum(['None', 'High', 'Medium', 'Low']),
 });
 
-export const updateTaskSchema = z.object({
+// POST Schema
+export const createTaskSchema = baseSchema;
+
+// PATCH Schema
+export const updateTaskSchema = baseSchema.partial().extend({
     id: z.coerce.number(),
-    title: z.string().min(1, 'Title is required.').max(255).optional(),
-    description: z.string().min(1, 'Description is required.').optional(),
     completed: z.coerce.boolean().optional(),
-    dueDate: z.coerce.date().optional(),
-    category: z.enum(['None', 'High', 'Medium', 'Low']).optional(),
 });
 
 export const formSchema = z.union([
