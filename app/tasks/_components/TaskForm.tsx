@@ -44,6 +44,7 @@ const TaskForm = ({ task }: { task?: Task }) => {
       if (data.type === "patch") await axios.patch("/api/tasks", data.data);
       else await axios.post("/api/tasks", data.data);
       router.push("/tasks");
+      router.refresh();
     } catch (error) {
       setSubmitting(false);
       setError("An unexpected error occurred.");
