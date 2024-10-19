@@ -4,15 +4,6 @@ import { Button, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import EditButton from "./EditButton";
 
-// type Task = {
-//   dueDate: Date;
-//   id: number;
-//   title: string;
-//   description: string;
-//   completed: boolean;
-//   category: Category;
-// };
-
 const TasksPage = async () => {
   // Get all the tasks from the server
   const tasks = await prisma.task.findMany({
@@ -65,14 +56,14 @@ const TasksPage = async () => {
               <Table.Cell>
                 {task.title}
                 <div className="block md:hidden text-xs text-gray-500">
-                  {task.dueDate.toDateString()}
+                  {task.dueDate.toUTCString().slice(0, 16)}
                 </div>
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
                 {task.description}
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                {task.dueDate.toDateString()}
+                {task.dueDate.toUTCString().slice(0, 16)}
               </Table.Cell>
               <Table.Cell>
                 <TaskCategoryBadge category={task.category}></TaskCategoryBadge>
