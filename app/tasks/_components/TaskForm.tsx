@@ -1,6 +1,11 @@
 "use client";
 
-import { DeleteButton, ErrorMessage, Spinner } from "@/app/components";
+import {
+  CancelButton,
+  DeleteButton,
+  ErrorMessage,
+  Spinner,
+} from "@/app/components";
 import { Category, formSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Task } from "@prisma/client";
@@ -144,9 +149,7 @@ const TaskForm = ({ task }: { task?: Task }) => {
       </form>
 
       {/*Cancel Button*/}
-      <Button>
-        <Link href="/tasks">Cancel</Link>
-      </Button>
+      <CancelButton href="/tasks" />
 
       {/*Delete Button*/}
       {task && <DeleteButton id={task.id} href="/tasks" />}
