@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const CancelButton = ({ href }: { href: string }) => {
   return (
-    <Button>
+    <Button variant="surface">
       <Link href={href}>Cancel</Link>
     </Button>
   );

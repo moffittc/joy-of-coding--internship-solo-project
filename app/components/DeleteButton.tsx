@@ -34,7 +34,12 @@ const DeleteButton = ({ id, href }: Props) => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <Button disabled={isDeleting} onClick={handleDelete}>
+      <Button
+        disabled={isDeleting}
+        onClick={handleDelete}
+        color="tomato"
+        variant="soft"
+      >
         Delete
         {isDeleting && <Spinner />}
       </Button>

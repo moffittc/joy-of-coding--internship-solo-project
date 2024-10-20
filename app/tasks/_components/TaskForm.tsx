@@ -94,7 +94,7 @@ const TaskForm = ({ task }: { task?: Task }) => {
         />
         <ErrorMessage>{errors.data?.description?.message}</ErrorMessage>
 
-        <div className="flex justify-between">
+        <div className="flex justify-between pb-5">
           {/* Category Field */}
           <div className="flex flex-col w-1/2 mr-10">
             <Label.Root
@@ -140,19 +140,22 @@ const TaskForm = ({ task }: { task?: Task }) => {
             <ErrorMessage>{errors.data?.dueDate?.message}</ErrorMessage>
           </div>
         </div>
+        <div className="flex size-full justify-between">
+          {/*Delete Button*/}
+          {task && <DeleteButton id={task.id} href="/tasks" />}
 
-        {/*Submit Button*/}
-        <Button disabled={isSubmitting}>
-          {task ? "Update" : "Create"}
-          {isSubmitting && <Spinner />}
-        </Button>
+          <div className="space-x-3">
+            {/*Cancel Button*/}
+            <CancelButton href="/tasks" />
+
+            {/*Submit Button*/}
+            <Button disabled={isSubmitting} className="flexjustify-self-end">
+              {task ? "Update" : "Create"}
+              {isSubmitting && <Spinner />}
+            </Button>
+          </div>
+        </div>
       </form>
-
-      {/*Cancel Button*/}
-      <CancelButton href="/tasks" />
-
-      {/*Delete Button*/}
-      {task && <DeleteButton id={task.id} href="/tasks" />}
     </div>
   );
 };
