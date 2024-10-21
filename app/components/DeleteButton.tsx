@@ -4,6 +4,7 @@ import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Spinner from "./Spinner";
 
 interface Props {
   id: number;
@@ -13,13 +14,16 @@ interface Props {
 const DeleteButton = ({ id, href }: Props) => {
   const router = useRouter();
   const [error, setError] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
 
   const deleteTask = async () => {
     try {
+      setDeleting(true);
       await axios.delete("/api/tasks/" + id);
       router.push(`${href}`);
       router.refresh();
     } catch (error) {
+      setDeleting(false);
       setError(true);
     }
   };
@@ -28,8 +32,9 @@ const DeleteButton = ({ id, href }: Props) => {
     <div>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="tomato" variant="soft">
+          <Button color="tomato" variant="soft" disabled={isDeleting}>
             Delete
+            {isDeleting && <Spinner />}
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
