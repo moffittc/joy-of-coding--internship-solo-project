@@ -20,7 +20,6 @@ export const createTaskSchema = baseSchema;
 
 // PATCH Schema
 export const updateTaskSchema = baseSchema.partial().extend({
-    id: z.coerce.number(),
     completed: z.coerce.boolean().optional(),
 });
 

@@ -45,7 +45,7 @@ const TaskForm = ({ task }: { task?: Task }) => {
     try {
       setSubmitting(true);
       // Sends data to api:
-      if (data.type === "patch") await axios.patch("/api/tasks", data.data);
+      if (task) await axios.patch("/api/tasks/" + task.id, data.data);
       else await axios.post("/api/tasks", data.data);
       router.push("/tasks");
       router.refresh();
@@ -71,11 +71,6 @@ const TaskForm = ({ task }: { task?: Task }) => {
           value={task ? "patch" : "post"}
           {...register("type")}
         />
-
-        {/* ID Field - for editing a task */}
-        {task && (
-          <input type="hidden" value={task?.id} {...register("data.id")} />
-        )}
 
         {/* Title Field*/}
         <TextField.Root
