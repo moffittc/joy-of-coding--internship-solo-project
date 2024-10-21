@@ -3,6 +3,7 @@
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface Props {
   id: number;
@@ -11,6 +12,17 @@ interface Props {
 
 const DeleteButton = ({ id, href }: Props) => {
   const router = useRouter();
+  const [error, setError] = useState(false);
+
+  const deleteTask = async () => {
+    try {
+      await axios.delete("/api/tasks/" + id);
+      router.push(`${href}`);
+      router.refresh();
+    } catch (error) {
+      setError(true);
+    }
+  };
 
   return (
     <div>
@@ -33,18 +45,29 @@ const DeleteButton = ({ id, href }: Props) => {
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button
-                color="red"
-                onClick={async () => {
-                  await axios.delete("/api/tasks/" + id);
-                  router.push(`${href}`);
-                  router.refresh();
-                }}
-              >
+              <Button color="red" onClick={deleteTask}>
                 Delete
               </Button>
             </AlertDialog.Action>
           </Flex>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
+
+      {/* Error Dialog */}
+      <AlertDialog.Root open={error}>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Error</AlertDialog.Title>
+          <AlertDialog.Description>
+            This task could not be deleted.
+          </AlertDialog.Description>
+          <Button
+            color="gray"
+            variant="surface"
+            mt="2"
+            onClick={() => setError(false)}
+          >
+            OK
+          </Button>
         </AlertDialog.Content>
       </AlertDialog.Root>
     </div>
