@@ -1,13 +1,15 @@
 "use client"; // For usePathname()
 
+import { Box } from "@radix-ui/themes";
+import classnames from "classnames";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
-import classnames from "classnames";
 
 const NavBar = () => {
   const currentPath = usePathname();
+  const { status, data: session } = useSession();
 
   const links = [
     // For now: Tasks, logged in: tasks, logged out: home
@@ -23,19 +25,28 @@ const NavBar = () => {
       </Link>
       <ul className="flex size-full justify-between items-center">
         {links.map((link) => (
-          <Link
-            key={link.href}
-            className={classnames({
-              "text-zinc-900": link.href === currentPath,
-              "text-zinc-400": link.href !== currentPath,
-              "hover:text-zinc-800 transition-colors": true,
-            })}
-            href={link.href}
-          >
-            {link.label}
-          </Link>
+          <li key={link.href}>
+            <Link
+              className={classnames({
+                "text-zinc-900": link.href === currentPath,
+                "text-zinc-400": link.href !== currentPath,
+                "hover:text-zinc-800 transition-colors": true,
+              })}
+              href={link.href}
+            >
+              {link.label}
+            </Link>
+          </li>
         ))}
       </ul>
+      <Box>
+        {status === "authenticated" && (
+          <Link href="/api/auth/signout">Log Out</Link>
+        )}
+        {status === "unauthenticated" && (
+          <Link href="/api/auth/signin">Log in</Link>
+        )}
+      </Box>
     </nav>
   );
 };
