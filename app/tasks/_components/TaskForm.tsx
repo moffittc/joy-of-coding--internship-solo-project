@@ -29,7 +29,7 @@ type TaskFormData = z.infer<typeof formSchema>;
 
 const TaskForm = ({ task }: { task?: Task }) => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   // For assigning the task with the user
 
   const {
