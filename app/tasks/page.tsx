@@ -1,21 +1,23 @@
 import { DoneCheckbox, TaskCategoryBadge } from "@/app/components";
 import prisma from "@/prisma/client";
-import { Button, Table } from "@radix-ui/themes";
+import { Button, Flex, Table } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import authOptions from "../auth/authOptions";
 import EditButton from "./EditButton";
 
-const TasksPage = async () => {
+interface Props {
+  searchParams: {
+    /*signedin: string*/
+  };
+}
+
+const TasksPage = async ({ searchParams }: Props) => {
   const session = await getServerSession(authOptions);
 
   // Get all the tasks from the server
   const tasks = await prisma.task.findMany({
-    // session &&  => where: user (filter)
-    //session.user.
-    orderBy: {
-      dueDate: "asc",
-    },
+    orderBy: { dueDate: "asc" },
     select: {
       id: true,
       completed: true,
@@ -23,16 +25,25 @@ const TasksPage = async () => {
       description: true,
       dueDate: true,
       category: true,
+      userEmail: true,
     },
   });
 
   return (
     <div>
-      <div className="mb-5">
+      <Flex className="mb-3" justify="between">
         <Button>
           <Link href="/tasks/new">+</Link>
         </Button>
-      </div>
+
+        {/* Refresh button */}
+        {/* <Button color="gray" variant="surface">
+          <Link href={`/tasks?signedin=${session?.user?.email}`}>
+            <IoMdRefresh />
+          </Link>
+        </Button> */}
+      </Flex>
+
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
@@ -45,38 +56,41 @@ const TasksPage = async () => {
               Due
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Priority</Table.ColumnHeaderCell>
-            {session && <Table.ColumnHeaderCell />}
+            <Table.ColumnHeaderCell />
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {tasks.map((task) => (
             <Table.Row key={task.id}>
-              <Table.RowHeaderCell>
-                <DoneCheckbox id={task.id} isChecked={task.completed} />
-              </Table.RowHeaderCell>
+              {task.userEmail === session?.user?.email && (
+                <>
+                  <Table.RowHeaderCell>
+                    <DoneCheckbox id={task.id} isChecked={task.completed} />
+                  </Table.RowHeaderCell>
 
-              <Table.Cell>
-                {task.title}
-                <div className="block md:hidden text-xs text-gray-500">
-                  {task.dueDate.toUTCString().slice(0, 16)}
-                </div>
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {task.description}
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {task.dueDate.toUTCString().slice(0, 16)}
-              </Table.Cell>
-              <Table.Cell>
-                <TaskCategoryBadge category={task.category}></TaskCategoryBadge>
-              </Table.Cell>
+                  <Table.Cell>
+                    {task.title}
+                    <div className="block md:hidden text-xs text-gray-500">
+                      {task.dueDate.toUTCString().slice(0, 16)}
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell className="hidden md:table-cell">
+                    {task.description}
+                  </Table.Cell>
+                  <Table.Cell className="hidden md:table-cell">
+                    {task.dueDate.toUTCString().slice(0, 16)}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <TaskCategoryBadge
+                      category={task.category}
+                    ></TaskCategoryBadge>
+                  </Table.Cell>
 
-              {/* Only visible if logged in */}
-              {session && (
-                <Table.Cell>
-                  <EditButton taskID={task.id} />
-                </Table.Cell>
+                  <Table.Cell>
+                    <EditButton taskID={task.id} />
+                  </Table.Cell>
+                </>
               )}
             </Table.Row>
           ))}
