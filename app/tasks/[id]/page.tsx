@@ -1,6 +1,5 @@
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
-import React from "react";
 import TaskForm from "../_components/TaskForm";
 
 interface Props {
