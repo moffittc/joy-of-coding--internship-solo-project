@@ -19,13 +19,15 @@ model Task {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   category    Category
+  userId      String?  @db.VarChar(255)
+  user        User?    @relation(fields: [userId], references: [id])
 }
 
 enum Category {
   None
-  High // "pink"
-  Medium // "orange"
-  Low // "yellow or amber"
+  High
+  Medium
+  Low
 }
 
 model Account {
@@ -66,6 +68,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  tasks         Task[]
 
   @@map("users")
 }
