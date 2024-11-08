@@ -1,10 +1,14 @@
 import { DoneCheckbox, TaskCategoryBadge } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Button, Table } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import authOptions from "../auth/authOptions";
 import EditButton from "./EditButton";
 
 const TasksPage = async () => {
+  const session = await getServerSession(authOptions);
+
   // Get all the tasks from the server
   const tasks = await prisma.task.findMany({
     // In order by due date
@@ -42,7 +46,7 @@ const TasksPage = async () => {
               Due
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Priority</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell />
+            {session && <Table.ColumnHeaderCell />}
           </Table.Row>
         </Table.Header>
 
@@ -68,9 +72,13 @@ const TasksPage = async () => {
               <Table.Cell>
                 <TaskCategoryBadge category={task.category}></TaskCategoryBadge>
               </Table.Cell>
-              <Table.Cell>
-                <EditButton taskID={task.id} />
-              </Table.Cell>
+
+              {/* Only visible if logged in */}
+              {session && (
+                <Table.Cell>
+                  <EditButton taskID={task.id} />
+                </Table.Cell>
+              )}
             </Table.Row>
           ))}
         </Table.Body>
