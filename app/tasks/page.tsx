@@ -30,9 +30,15 @@ const TasksPage = async ({ searchParams }: Props) => {
     { label: "Priority", value: "category" },
   ];
 
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: "asc" }
+    : undefined;
+
   // Get all the tasks from the server
   const tasks = await prisma.task.findMany({
-    orderBy: { dueDate: "asc" },
+    orderBy,
     select: {
       id: true,
       completed: true,
