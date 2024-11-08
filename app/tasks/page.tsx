@@ -1,19 +1,34 @@
 import { DoneCheckbox, TaskCategoryBadge } from "@/app/components";
 import prisma from "@/prisma/client";
+import { Task } from "@prisma/client";
 import { Button, Flex, Table } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { TiArrowSortedUp } from "react-icons/ti";
 import authOptions from "../auth/authOptions";
 import EditButton from "./EditButton";
 
 interface Props {
-  searchParams: {
-    /*signedin: string*/
-  };
+  searchParams: { orderBy: keyof Task };
 }
 
 const TasksPage = async ({ searchParams }: Props) => {
   const session = await getServerSession(authOptions);
+
+  const columns: {
+    label: string;
+    value: keyof Task;
+    className?: string;
+  }[] = [
+    { label: "Task Name", value: "title" },
+    {
+      label: "Description",
+      value: "description",
+      className: "hidden md:table-cell",
+    },
+    { label: "Due", value: "dueDate", className: "hidden md:table-cell" },
+    { label: "Priority", value: "category" },
+  ];
 
   // Get all the tasks from the server
   const tasks = await prisma.task.findMany({
@@ -48,14 +63,16 @@ const TasksPage = async ({ searchParams }: Props) => {
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell />
-            <Table.ColumnHeaderCell>Task Name</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Description
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Due
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Priority</Table.ColumnHeaderCell>
+            {columns.map((column) => (
+              <Table.ColumnHeaderCell key={column.value}>
+                <Link href={`/tasks?orderBy=${column.value}`}>
+                  {column.label}
+                </Link>
+                {column.value === searchParams.orderBy && (
+                  <TiArrowSortedUp className="inline" />
+                )}
+              </Table.ColumnHeaderCell>
+            ))}
             <Table.ColumnHeaderCell />
           </Table.Row>
         </Table.Header>
