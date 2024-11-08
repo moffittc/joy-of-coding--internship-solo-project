@@ -11,7 +11,8 @@ const TasksPage = async () => {
 
   // Get all the tasks from the server
   const tasks = await prisma.task.findMany({
-    // In order by due date
+    // session &&  => where: user (filter)
+    //session.user.
     orderBy: {
       dueDate: "asc",
     },
@@ -22,8 +23,6 @@ const TasksPage = async () => {
       description: true,
       dueDate: true,
       category: true,
-      createdAt: true,
-      updatedAt: true,
     },
   });
 

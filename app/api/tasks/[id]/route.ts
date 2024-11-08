@@ -44,14 +44,15 @@ export async function PATCH(
     if (!task)
         return NextResponse.json({ error: 'Invalid task' }, { status: 404 });
 
+    const {completed, title, description, dueDate, category} = body;
     const updatedTask = await prisma.task.update({
         where: { id: task.id },
         data: {
-            completed: body.completed, 
-            title: body.title, 
-            description: body.description, 
-            dueDate: body.dueDate, 
-            category: body.category, 
+            completed, 
+            title, 
+            description, 
+            dueDate, 
+            category, 
         }
       });
 
