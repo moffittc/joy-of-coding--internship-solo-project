@@ -4,9 +4,9 @@ import { Task } from "@prisma/client";
 import { Button, Flex, Table } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { TiArrowSortedUp } from "react-icons/ti";
 import authOptions from "../auth/authOptions";
 import EditButton from "./EditButton";
+import SortButton from "./SortButton";
 
 interface Props {
   searchParams: { orderBy: keyof Task };
@@ -52,33 +52,29 @@ const TasksPage = async ({ searchParams }: Props) => {
 
   return (
     <div>
-      <Flex className="mb-3" justify="between">
+      <Flex className="mb-3">
         <Button>
           <Link href="/tasks/new">+</Link>
         </Button>
-
-        {/* Refresh button */}
-        {/* <Button color="gray" variant="surface">
-          <Link href={`/tasks?signedin=${session?.user?.email}`}>
-            <IoMdRefresh />
-          </Link>
-        </Button> */}
       </Flex>
-
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell />
+
             {columns.map((column) => (
-              <Table.ColumnHeaderCell key={column.value}>
-                <Link href={`/tasks?orderBy=${column.value}`}>
-                  {column.label}
-                </Link>
-                {column.value === searchParams.orderBy && (
-                  <TiArrowSortedUp className="inline" />
-                )}
+              <Table.ColumnHeaderCell
+                key={column.value}
+                className={column.className}
+              >
+                <SortButton
+                  currentCol={column.value === searchParams.orderBy}
+                  label={column.label}
+                  value={column.value}
+                />
               </Table.ColumnHeaderCell>
             ))}
+
             <Table.ColumnHeaderCell />
           </Table.Row>
         </Table.Header>
