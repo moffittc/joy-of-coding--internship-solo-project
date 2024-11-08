@@ -19,6 +19,7 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -28,6 +29,8 @@ type TaskFormData = z.infer<typeof formSchema>;
 
 const TaskForm = ({ task }: { task?: Task }) => {
   const router = useRouter();
+  const { data: session, status } = useSession();
+  // For assigning the task with the user
 
   const {
     register,
@@ -71,6 +74,14 @@ const TaskForm = ({ task }: { task?: Task }) => {
           value={task ? "patch" : "post"}
           {...register("type")}
         />
+
+        {!task && (
+          <input
+            type="hidden"
+            value={session?.user?.email ? session?.user?.email : undefined}
+            {...register("data.userEmail")}
+          />
+        )}
 
         {/* Title Field*/}
         <TextField.Root

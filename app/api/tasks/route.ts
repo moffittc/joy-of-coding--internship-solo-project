@@ -14,13 +14,24 @@ export async function POST(request: NextRequest) {
     if (!validation.success)
         return NextResponse.json(validation.error.format(), { status: 400 });
 
+    const {userEmail, title, description, dueDate, category} = body;
+
+    // Validate user to assign task to
+    if (userEmail) {
+        const user = await prisma.user.findUnique({ where: { email: userEmail }});
+        if (!user) {
+            return NextResponse.json({ error: "Invalid user."}, { status: 400 })
+        }
+    }
+
     // Insert new task in database
     const newTask = await prisma.task.create({
         data: { 
-            title: body.title, 
-            description: body.description, 
-            dueDate: body.dueDate, 
-            category: body.category,
+            title, 
+            description, 
+            dueDate, 
+            category,
+            userEmail
         },
     });
 

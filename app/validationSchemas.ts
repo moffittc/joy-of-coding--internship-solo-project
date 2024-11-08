@@ -10,9 +10,10 @@ export enum Category {
 
 const baseSchema = z.object({
     title: z.string().min(1, 'Title is required.').max(255),
-    description: z.string().min(1, 'Description is required.'),
+    description: z.string().min(1, 'Description is required.').max(65535),
     dueDate: z.coerce.date(), // Converts input string into date type
     category: z.enum(['None', 'High', 'Medium', 'Low']),
+    userEmail: z.string().min(1).max(255).optional().nullable()
 });
 
 // POST Schema
